@@ -54,9 +54,9 @@ class TodoMVC extends PureComponent<Props, State> {
     const { allTodo, handleSetState, deleteTodoAction, location: { pathname } } = this.props;
     const filterTodos =
       pathname === '/active' ?
-      allTodo.filter((v) => v.isComplete !== true) :
+      allTodo.filter((v) => !v.isComplete) :
       pathname === '/completed' ?
-      allTodo.filter((v) => v.isComplete !== false) : allTodo;
+      allTodo.filter((v) => !!v.isComplete) : allTodo;
     return filterTodos.map((v: Todo): ReactNode => (
       <li className={v.isComplete ? 'completed' : ''} key={v.id}>
         <div className="view">

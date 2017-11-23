@@ -43,7 +43,7 @@ export function todoReducer(state: StoreState = initialState, action: UnionActio
       lastSwitch = !lastSwitch;
       return { ...state, allTodo: newTodos };
     case CLEAR_COMPLETE:
-      return { ...state, allTodo: state.allTodo.filter((v) => v.isComplete === false) };
+      return { ...state, allTodo: state.allTodo.filter((v) => !v.isComplete) };
     default:
       return state;
   }
