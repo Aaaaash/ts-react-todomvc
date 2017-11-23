@@ -7,7 +7,7 @@ import createHistory from 'history/createBrowserHistory';
 import { History } from 'history';
 import { routerMiddleware }  from 'react-router-redux';
 
-import TodoMVC from './container/TodoMVC';
+import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import todoReducer from './reducer';
 import { TodoState } from './interface'; 
@@ -24,7 +24,7 @@ const store = createStore<TodoState>(todoReducer, { allTodo: [] }, enhaner);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <TodoMVC />
+      <App />
     </Router>
   </Provider>,
   document.getElementById('root') as HTMLElement

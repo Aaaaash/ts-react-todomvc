@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PureComponent, ReactNode, KeyboardEvent } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { StoreState, Todo, UnionAction } from '../interface';
 import {
@@ -51,6 +51,7 @@ class TodoMVC extends PureComponent<Props, State> {
   }
 
   renderTodos = (): ReactNode[] => {
+    console.log(this.props);
     const { allTodo, handleSetState, deleteTodoAction, location: { pathname } } = this.props;
     const filterTodos =
       pathname === '/active' ?
@@ -148,4 +149,4 @@ const mapDispatchToProps = (dispatch: Dispatch<UnionAction>) => ({
 export function mergePropss(stateProps: Object, dispatchProps: Object, ownProps: Object) {
   return Object.assign({}, ownProps, stateProps, dispatchProps);
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergePropss)(TodoMVC));
+export default connect(mapStateToProps, mapDispatchToProps, mergePropss)(TodoMVC);
