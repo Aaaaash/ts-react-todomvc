@@ -51,7 +51,6 @@ class TodoMVC extends PureComponent<Props, State> {
   }
 
   renderTodos = (): ReactNode[] => {
-    console.log(this.props);
     const { allTodo, handleSetState, deleteTodoAction, location: { pathname } } = this.props;
     const filterTodos =
       pathname === '/active' ?
