@@ -5,6 +5,7 @@ import {
   InterfaceDelete,
   InterfaceSetState,
   InterfaceAll,
+  InterfaceClear,
   Todo,
 } from './interface';
 
@@ -32,5 +33,11 @@ export function setCompleteState(id: string): InterfaceSetState {
 export function setAllState(): InterfaceAll {
   return {
     type: constants.ALL_SWITCH_STATE,
+  }
+}
+
+export function clearComplete(): InterfaceClear {
+  return {
+    type: constants.CLEAR_COMPLETE,
   }
 }

@@ -9,3 +9,6 @@ export type CHECK_COMPLETE_STATE = typeof CHECK_COMPLETE_STATE;
 
 export const ALL_SWITCH_STATE = 'app/TodoMVC/ALL_SWITCH_STATE';
 export type ALL_SWITCH_STATE = typeof ALL_SWITCH_STATE;
+
+export const CLEAR_COMPLETE = 'app/TodoMVC/CLEAR_COMPLETE';
+export type CLEAR_COMPLETE = typeof CLEAR_COMPLETE;

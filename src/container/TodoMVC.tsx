@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PureComponent, ReactNode, KeyboardEvent } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
 
 import { StoreState, Todo, UnionAction } from '../interface';
 import {
@@ -9,6 +10,7 @@ import {
   deleteTodo,
   setCompleteState,
   setAllState,
+  clearComplete,
 } from '../actions';
 import guid from './guid';
 
@@ -18,6 +20,8 @@ export interface Props {
   deleteTodoAction: (id: string) => void;
   handleSetState: (id: string) => void;
   handleSwitchAll: () => void;
+  handleClearComplete: () => void;
+  [propName: string]: any;
 };
 
 export interface State {
@@ -47,8 +51,13 @@ class TodoMVC extends PureComponent<Props, State> {
   }
 
   renderTodos = (): ReactNode[] => {
-    const { allTodo, handleSetState, deleteTodoAction } = this.props;
-    return allTodo.map((v: Todo): ReactNode => (
+    const { allTodo, handleSetState, deleteTodoAction, location: { pathname } } = this.props;
+    const filterTodos =
+      pathname === '/active' ?
+      allTodo.filter((v) => v.isComplete !== true) :
+      pathname === '/completed' ?
+      allTodo.filter((v) => v.isComplete !== false) : allTodo;
+    return filterTodos.map((v: Todo): ReactNode => (
       <li className={v.isComplete ? 'completed' : ''} key={v.id}>
         <div className="view">
           <input
@@ -63,14 +72,13 @@ class TodoMVC extends PureComponent<Props, State> {
             onClick={() => deleteTodoAction(v.id)}
           />
         </div>
-        <input className="edit" value="Create a TodoMVC template" />
       </li>
     ));
   }
 
   render(): ReactNode {
     const { inputValue } = this.state;
-    const { handleSwitchAll } = this.props;
+    const { handleSwitchAll, handleClearComplete, location: { pathname } } = this.props;
     return (
       <div className="todoapp">
         <header className="header">
@@ -100,6 +108,26 @@ class TodoMVC extends PureComponent<Props, State> {
             {this.renderTodos()}
           </ul>
         </section>
+        <footer className="footer">
+          <span className="todo-count"><strong>0</strong> item left</span>
+          <ul className="filters">
+            <li>
+              <Link className={ pathname === '/' ? 'selected' : '' } to="/">All</Link>
+            </li>
+            <li>
+              <Link className={ pathname === '/active' ? 'selected' : '' } to="/active">Active</Link>
+            </li>
+            <li>
+              <Link className={ pathname === '/completed' ? 'selected' : '' } to="/completed">Completed</Link>
+            </li>
+          </ul>
+          <button
+            className="clear-completed"
+            onClick={handleClearComplete}
+          >
+            Clear completed
+          </button>
+        </footer>
       </div>
     );
   }
@@ -114,9 +142,10 @@ const mapDispatchToProps = (dispatch: Dispatch<UnionAction>) => ({
   deleteTodoAction: (id: string) => dispatch(deleteTodo(id)),
   handleSetState: (id: string) => dispatch(setCompleteState(id)),
   handleSwitchAll: () => dispatch(setAllState()),
+  handleClearComplete: () => dispatch(clearComplete()),
 });
 
 export function mergePropss(stateProps: Object, dispatchProps: Object, ownProps: Object) {
   return Object.assign({}, ownProps, stateProps, dispatchProps);
 }
-export default connect(mapStateToProps, mapDispatchToProps, mergePropss)(TodoMVC);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergePropss)(TodoMVC));

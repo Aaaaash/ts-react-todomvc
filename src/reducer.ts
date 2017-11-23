@@ -4,6 +4,7 @@ import {
   DELETE_TODO,
   CHECK_COMPLETE_STATE,
   ALL_SWITCH_STATE,
+  CLEAR_COMPLETE,
 } from './constants';
 
 const initialState = {
@@ -28,10 +29,12 @@ export function todoReducer(state: StoreState = initialState, action: UnionActio
       return {
         ...state,
         allTodo: state.allTodo.map((v: Todo) => {
-          if (v.id === action.id) v.isComplete = !v.isComplete;
+          if (v.id === action.id) {
+            v.isComplete = !v.isComplete;
+          }
           return v;
         }),
-      }
+      };
     case ALL_SWITCH_STATE:
       const newTodos = state.allTodo.map((v: Todo) => {
         v.isComplete = lastSwitch;
@@ -39,6 +42,8 @@ export function todoReducer(state: StoreState = initialState, action: UnionActio
       });
       lastSwitch = !lastSwitch;
       return { ...state, allTodo: newTodos };
+    case CLEAR_COMPLETE:
+      return { ...state, allTodo: state.allTodo.filter((v) => v.isComplete === false) };
     default:
       return state;
   }

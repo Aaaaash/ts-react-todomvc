@@ -19,6 +19,10 @@ export interface InterfaceAll {
   type: constants.ALL_SWITCH_STATE,
 }
 
+export interface InterfaceClear {
+  type: constants.CLEAR_COMPLETE,
+}
+
 export interface Todo {
   id: string;
   text: string;
@@ -31,4 +35,4 @@ export interface StoreState {
 
 export type TodoState = StoreState;
 
-export type UnionAction = InterfaceAdd | InterfaceDelete | InterfaceSetState | InterfaceAll;
+export type UnionAction = InterfaceAdd | InterfaceDelete | InterfaceSetState | InterfaceAll | InterfaceClear;
