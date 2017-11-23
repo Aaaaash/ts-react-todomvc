@@ -13,7 +13,13 @@ const store = createStore<TodoState>(todoReducer);
 
 ReactDOM.render(
   <Provider store={store}>
-    <TodoMVC allTodo={[]} addNewTodoAction={() => {}} deleteTodoAction={() => {}} />
+    <TodoMVC
+      allTodo={[]}
+      addNewTodoAction={() => {}}
+      deleteTodoAction={() => {}}
+      handleSetState={() => {}}
+      handleSwitchAll={() => {}}
+    />
   </Provider>,
   document.getElementById('root') as HTMLElement
 );
