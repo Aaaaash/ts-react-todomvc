@@ -29,10 +29,12 @@ export interface Todo {
   isComplete: boolean;
 }
 
-export interface StoreState {
+export interface TodoState {
   allTodo: Todo[];
 }
 
-export type TodoState = StoreState;
+export interface StoreState {
+  todos: TodoState;
+}
 
 export type UnionAction = InterfaceAdd | InterfaceDelete | InterfaceSetState | InterfaceAll | InterfaceClear;

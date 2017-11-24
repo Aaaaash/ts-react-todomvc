@@ -12,7 +12,8 @@ import {
   setAllState,
   clearComplete,
 } from '../actions';
-import guid from './guid';
+import guid from '../utils/guid';
+import getQueryString from '../utils/getQueryString';
 
 export interface Props {
   allTodo: Todo[];
@@ -51,11 +52,12 @@ class TodoMVC extends PureComponent<Props, State> {
   }
 
   renderTodos = (): ReactNode[] => {
-    const { allTodo, handleSetState, deleteTodoAction, location: { pathname } } = this.props;
+    const { allTodo, handleSetState, deleteTodoAction } = this.props;
+    const queryType = getQueryString('type');
     const filterTodos =
-      pathname === '/active' ?
+      queryType === 'active' ?
       allTodo.filter((v) => !v.isComplete) :
-      pathname === '/completed' ?
+      queryType === 'completed' ?
       allTodo.filter((v) => !!v.isComplete) : allTodo;
     return filterTodos.map((v: Todo): ReactNode => (
       <li className={v.isComplete ? 'completed' : ''} key={v.id}>
@@ -78,7 +80,8 @@ class TodoMVC extends PureComponent<Props, State> {
 
   render(): ReactNode {
     const { inputValue } = this.state;
-    const { handleSwitchAll, handleClearComplete, location: { pathname } } = this.props;
+    const { handleSwitchAll, handleClearComplete } = this.props;
+    const queryType = getQueryString('type');
     return (
       <div className="todoapp">
         <header className="header">
@@ -112,13 +115,28 @@ class TodoMVC extends PureComponent<Props, State> {
           <span className="todo-count"><strong>0</strong> item left</span>
           <ul className="filters">
             <li>
-              <Link className={ pathname === '/' ? 'selected' : '' } to="/">All</Link>
+              <Link
+                className={ queryType === '' || queryType === 'all' ? 'selected' : '' }
+                to="/?type=all"
+              >
+                All
+              </Link>
             </li>
             <li>
-              <Link className={ pathname === '/active' ? 'selected' : '' } to="/active">Active</Link>
+              <Link
+                className={ queryType === 'active' ? 'selected' : '' }
+                to="/?type=active"
+              >
+                Active
+              </Link>
             </li>
             <li>
-              <Link className={ pathname === '/completed' ? 'selected' : '' } to="/completed">Completed</Link>
+              <Link
+                className={ queryType === 'completed' ? 'selected' : '' }
+                to="/?type=completed"
+              >
+                Completed
+              </Link>
             </li>
           </ul>
           <button
@@ -134,7 +152,7 @@ class TodoMVC extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: StoreState) => ({
-  allTodo: state.allTodo,
+  allTodo: state.todos.allTodo,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<UnionAction>) => ({

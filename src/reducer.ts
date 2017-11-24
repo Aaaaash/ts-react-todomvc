@@ -1,4 +1,5 @@
-import { StoreState, UnionAction, Todo } from './interface';
+import { combineReducers } from 'redux';
+import { TodoState, UnionAction, Todo } from './interface';
 import {
   ADD_NEW_TODO,
   DELETE_TODO,
@@ -13,7 +14,7 @@ const initialState = {
 
 let lastSwitch = true;
 
-export function todoReducer(state: StoreState = initialState, action: UnionAction): StoreState {
+export function todoReducer(state: TodoState = initialState, action: UnionAction): TodoState {
   switch (action.type) {
     case ADD_NEW_TODO:
       return {
@@ -49,4 +50,4 @@ export function todoReducer(state: StoreState = initialState, action: UnionActio
   }
 }
 
-export default todoReducer;
+export default combineReducers({ todos: todoReducer });

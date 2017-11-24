@@ -9,8 +9,7 @@ import { routerMiddleware }  from 'react-router-redux';
 
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import todoReducer from './reducer';
-import { TodoState } from './interface'; 
+import reducers from './reducer';
 import './index.css';
 
 const history: History = createHistory();
@@ -19,7 +18,8 @@ const middlewares: Middleware[] = [
 ];
 const enhaner = applyMiddleware(...middlewares);
 
-const store = createStore<TodoState>(todoReducer, { allTodo: [] }, enhaner);
+const initialState = {};
+const store = createStore(reducers, initialState, enhaner);
 
 ReactDOM.render(
   <Provider store={store}>
