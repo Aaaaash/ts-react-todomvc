@@ -56,9 +56,9 @@ class TodoMVC extends PureComponent<Props, State> {
     const queryType = getQueryString('type');
     const filterTodos =
       queryType === 'active' ?
-      allTodo.filter((v) => !v.isComplete) :
+      allTodo.filter((v: Todo) => !v.isComplete) :
       queryType === 'completed' ?
-      allTodo.filter((v) => !!v.isComplete) : allTodo;
+      allTodo.filter((v: Todo) => !!v.isComplete) : allTodo;
     return filterTodos.map((v: Todo): ReactNode => (
       <li className={v.isComplete ? 'completed' : ''} key={v.id}>
         <div className="view">
@@ -81,7 +81,7 @@ class TodoMVC extends PureComponent<Props, State> {
   render(): ReactNode {
     const { inputValue } = this.state;
     const { handleSwitchAll, handleClearComplete } = this.props;
-    const queryType = getQueryString('type');
+    const queryType: string = getQueryString('type');
     return (
       <div className="todoapp">
         <header className="header">
