@@ -1,6 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createStore, applyMiddleware, Middleware } from 'redux';
+import {
+  createStore,
+  applyMiddleware,
+  Middleware,
+  compose,
+  GenericStoreEnhancer,
+} from 'redux';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
@@ -13,13 +19,29 @@ import reducers from './reducer';
 import './index.css';
 
 const history: History = createHistory();
+
 const middlewares: Middleware[] = [
   routerMiddleware(history),
 ];
-const enhaner = applyMiddleware(...middlewares);
+
+const enhaners: GenericStoreEnhancer[] = [
+  applyMiddleware(...middlewares),
+];
+
+const composeEnhancers =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+    shouldHotReload: false,
+  })
+  : compose;
 
 const initialState = {};
-const store = createStore(reducers, initialState, enhaner);
+
+const store = createStore(
+  reducers,
+  initialState,
+  composeEnhancers(...enhaners)
+);
 
 ReactDOM.render(
   <Provider store={store}>
