@@ -6,6 +6,7 @@ import {
   Middleware,
   compose,
   GenericStoreEnhancer,
+  Store,
 } from 'redux';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -28,16 +29,16 @@ const enhaners: GenericStoreEnhancer[] = [
   applyMiddleware(...middlewares),
 ];
 
-const composeEnhancers =
+const composeEnhancers: Function =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
     shouldHotReload: false,
   })
   : compose;
 
-const initialState = {};
+const initialState: object = {};
 
-const store = createStore(
+const store: Store<object> = createStore(
   reducers,
   initialState,
   composeEnhancers(...enhaners)
