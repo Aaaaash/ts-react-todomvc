@@ -3,7 +3,7 @@ RUN apt-get update \
     && apt-get install -y nginx
 WORKDIR /app
 COPY . /app/
-EXPOSE 80
+EXPOSE 81
 RUN  npm install \
      && npm run build \
      && cp -r build/* /var/www/html \
